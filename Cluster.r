@@ -7,6 +7,13 @@ mydata <- read.csv("Customers4.csv")
 # convert to a R data frame
 mydata <- data.frame(mydata)
 
+# remove blanks and NA
+nrow(mydata)
+complete = complete.cases(mydata)
+mydata = mydata[complete, ]
+mydata$MonthlyRevenue = ifelse(is.na(mydata$MonthlyRevenue), mean(mydata$MonthlyRevenue, na.rm = TRUE), mydata$MonthlyRevenue)
+write.csv(mydata, file="Customers3.csv", row.names=FALSE)
+
 # exclude unimportant variables
 exclude <- c("BuysViaMailOrder1", "RespondsToMailOffers1", "OptOutMailings1", "NonUSTravel1", "PrizmCode1","Occupation1","CreditRating")
 mydata <- mydata[ , !(names(mydata) %in% exclude)]
